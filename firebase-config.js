@@ -17,11 +17,6 @@ if (!firebase.apps.length) {
 
 const db = firebase.firestore();
 
-// Verificar si está configurado
-if (firebaseConfig.apiKey === "AIzaSyCzaTDU8KMbZNQICU5HnezQ0CdzkCbeWYQ") {
-    console.warn("Firebase no está configurado. Por favor edita firebase-config.js");
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('configWarning').style.display = 'block';
-    });
-}
+// Configuración correcta
+console.log("Firebase configurado");
 
