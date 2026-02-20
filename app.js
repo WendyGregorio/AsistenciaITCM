@@ -155,7 +155,7 @@ function loadAttendance(dateStr) {
     // Iniciar nuevo listener
     unsubscribe = db.collection("attendance")
         .where("date", "==", dateStr)
-        .orderBy("entry_time", "desc") // Requiere índice compuesto en Firestore, si falla, quitar orderBy o crear indice
+        // .orderBy("entry_time", "desc") // <--- ELIMINADO para evitar error de índice
         .onSnapshot((snapshot) => {
             tableBody.innerHTML = '';
 
@@ -164,8 +164,18 @@ function loadAttendance(dateStr) {
                 return;
             }
 
-            snapshot.forEach(doc => {
-                const data = doc.data();
+            // Convertir a array y ordenar manualmente en JS (más fácil que crear índices)
+            let docs = [];
+            snapshot.forEach(doc => docs.push(doc.data()));
+
+            // Ordenar: más reciente primero (descendente)
+            docs.sort((a, b) => {
+                if (a.entry_time < b.entry_time) return 1;
+                if (a.entry_time > b.entry_time) return -1;
+                return 0;
+            });
+
+            docs.forEach(data => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${data.date}</td>
