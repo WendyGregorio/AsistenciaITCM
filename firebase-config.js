@@ -1,6 +1,6 @@
 // firebase-config.js
 // Ve a https://console.firebase.google.com/ -> Tu Proyecto -> Configuración del proyecto -> General -> SDK Setup -> CDN
-import { initializeApp } from "firebase/app";
+// No imports needed with script tags in HTML
 const firebaseConfig = {
     apiKey: "AIzaSyCzaTDU8KMbZNQICU5HnezQ0CdzkCbeWYQ",
     authDomain: "asistencia-itcm.firebaseapp.com",
@@ -11,12 +11,14 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 const db = firebase.firestore();
 
 // Verificar si está configurado
-if (firebaseConfig.apiKey ===  "AIzaSyCzaTDU8KMbZNQICU5HnezQ0CdzkCbeWYQ") {
+if (firebaseConfig.apiKey === "AIzaSyCzaTDU8KMbZNQICU5HnezQ0CdzkCbeWYQ") {
     console.warn("Firebase no está configurado. Por favor edita firebase-config.js");
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('configWarning').style.display = 'block';
